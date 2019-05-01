@@ -31,3 +31,26 @@
     transform: rotate(360deg);
   }
 }
+.text-right {
+  text-align: right;
+  float: right;
+}
+
+.mt-15{
+  margin-top: 15px;
+}
+
+.ml-5{
+  margin-left: 5px
+}
+.pointer{
+  cursor: pointer;
+}
+.sort_selected::after {
+  content: '\f00c';
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  margin: 0 0 0 10px;
+  display: inline-block;
+}
