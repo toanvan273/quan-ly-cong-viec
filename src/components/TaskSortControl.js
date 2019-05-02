@@ -2,9 +2,9 @@ import React from 'react';
 
 
 class Sort extends React.Component {
-   componentWillReceiveProps(nextProps){
-       console.log(nextProps)
-   }
+//    componentWillReceiveProps(nextProps){
+//        console.log(nextProps)
+//    }
     onClick = (sortBy, sortValue) => {
        this.props.onSort(sortBy,sortValue)
     }
@@ -25,22 +25,23 @@ class Sort extends React.Component {
 
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
                             <li onClick={ () => this.onClick('name', 1) }>
-                                <a role='button' className={ (this.props.sortBy === 'name' && this.props.sortValue === 1) ? 'sort_selected' : '' }>
+                                <a role='button' href="true" className={ (this.props.sortBy === 'name' && this.props.sortValue === 1) ? 'sort_selected' : '' }>
                                     <span className="fa fa-sort-alpha-asc pr-5">Tên A - Z</span>
                                 </a>
                             </li>
                             <li  onClick={ () => this.onClick('name', -1) }>
-                                <a role="button"  className={ (this.props.sortBy === 'name' && this.props.sortValue === -1) ? 'sort_selected' : '' } >
-                                <span className="fa fa-sort-alpha-desc pr-5">
-                                    Tên Z - A
-                                </span>
-                            </a></li>
+                                <a href="true"  className={ (this.props.sortBy === 'name' && this.props.sortValue === -1) ? 'sort_selected' : '' } role="button">
+                                    <span className="fa fa-sort-alpha-desc pr-5">
+                                        Tên Z - A
+                                    </span>
+                                </a>
+                            </li>
                             <li role="separator" className="divider"></li>
                             <li  onClick={ () => this.onClick('status', 1) }>
-                                <a role="button"  className={ (this.props.sortBy === 'status' && this.props.sortValue === 1) ? 'sort_selected' : '' }>Trạng thái Kích hoạt</a>
+                                <a href="true" role="button"  className={ (this.props.sortBy === 'status' && this.props.sortValue === 1) ? 'sort_selected' : '' }>Trạng thái Kích hoạt</a>
                             </li>
                             <li onClick={ () => this.onClick('status', -1) }>
-                                <a role="button" className={ (this.props.sortBy === 'status' && this.props.sortValue === -1) ? 'sort_selected' : '' }>Trạng thái Ẩn</a>
+                                <a href="true" role="button" className={ (this.props.sortBy === 'status' && this.props.sortValue === -1) ? 'sort_selected' : '' }>Trạng thái Ẩn</a>
                             </li>
                         </ul>
                     </div>

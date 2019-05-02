@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { connect } from 'react-redux'
+import * as actions from './../actions'
 
 class TaskForm extends React.Component {
     constructor(){
@@ -34,7 +35,14 @@ class TaskForm extends React.Component {
             })
         }
     }
+    // s4(){
+    //     return Math.floor((1+Math.random())* 0x10000).toString(16).substring(1)
+    // }
+    // generateID(){
+    //     return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + this.s4() + this.s4()
+    // }
     onChange = (event) => {
+        // let id = this.generateID()
         let target = event.target
         let name = target.name
         let value = target.value
@@ -42,12 +50,15 @@ class TaskForm extends React.Component {
             value = target.value === 'true'? true : false
         }
         this.setState({
-            [name] : value
+            [name] : value,
+            
         })
     }
     onSubmit = (value) => {
         value.preventDefault();
-        this.props.onSubmit(this.state )
+        this.props.onAddTask(this.state)
+        // this.props.onSubmit( this.state )
+        this.onClear()
     }
     onClear = () => {
         this.setState({
@@ -56,13 +67,13 @@ class TaskForm extends React.Component {
         })
     }
     render(){
-        const { close } = this.props
+        const { onCloseForm } = this.props
        const { id } = this.state
         return (
             <div className="panel panel-warning">
                 <div className="panel-heading">
                     <h3 className="panel-title"> { id !== ''? 'Cập nhật công việc' : 'Thêm công việc'}
-                        <span className="fa fa-times-circle text-right pointer" onClick={close}></span>
+                        <span className="fa fa-times-circle text-right pointer" onClick={onCloseForm}></span>
                     </h3>
                 </div>
                 <div className="panel-body">
@@ -101,7 +112,23 @@ class TaskForm extends React.Component {
         </div>
         )
     }
-  
 }
 
-export default TaskForm;
+const mapStateToProps = state => {
+    return {
+        // isDisplayForm: state.isDisplayForm
+    }
+}
+
+const mapDispatchToProps = (dispatch,props) => {
+    return {
+        onAddTask: task => {
+            dispatch(actions.addTask(task))
+        },
+        onCloseForm: () => {
+            dispatch(actions.closeForm())
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(TaskForm)
