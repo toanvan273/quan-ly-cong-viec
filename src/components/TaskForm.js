@@ -6,43 +6,22 @@ class TaskForm extends React.Component {
     constructor(){
         super()
         this.state = {
-            id: '',
-            name: '',
-            status: false,
-        }
-    }
-    componentWillMount(){
-        if(this.props.task ) {
-            this.setState({
-                id: this.props.task.id,
-                name: this.props.task.name,
-                status: this.props.task.status
-            })
+           
         }
     }
     componentWillReceiveProps(nextProps){
-        if(nextProps && nextProps.task ) {
+        if(nextProps && nextProps.editTask ) {
             this.setState({
-                id: nextProps.task.id,
-                name: nextProps.task.name,
-                status: nextProps.task.status
+                id: nextProps.editTask.id,
+                name: nextProps.editTask.name,
+                status: nextProps.editTask.status
             })
-        }else if(nextProps.task === null){
-            this.setState({
-                id: '',
-                name: '',
-                status: false,
-            })
+        }else{
+            this.onClear()
         }
     }
-    // s4(){
-    //     return Math.floor((1+Math.random())* 0x10000).toString(16).substring(1)
-    // }
-    // generateID(){
-    //     return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + this.s4() + this.s4()
-    // }
+
     onChange = (event) => {
-        // let id = this.generateID()
         let target = event.target
         let name = target.name
         let value = target.value
@@ -51,14 +30,13 @@ class TaskForm extends React.Component {
         }
         this.setState({
             [name] : value,
-            
         })
     }
-    onSubmit = (value) => {
+    onSave = (value) => {
         value.preventDefault();
-        this.props.onAddTask(this.state)
-        // this.props.onSubmit( this.state )
+        this.props.onSaveTask(this.state)
         this.onClear()
+        this.props.onCloseForm()
     }
     onClear = () => {
         this.setState({
@@ -69,6 +47,7 @@ class TaskForm extends React.Component {
     render(){
         const { onCloseForm } = this.props
        const { id } = this.state
+        if(!this.props.isDisplayForm) return ""
         return (
             <div className="panel panel-warning">
                 <div className="panel-heading">
@@ -78,7 +57,7 @@ class TaskForm extends React.Component {
                 </div>
                 <div className="panel-body">
                     
-                <form onSubmit={this.onSubmit}>
+                <form onSubmit={this.onSave}>
                 
                     <div className="form-group">
                         <label >Tên :</label>
@@ -107,7 +86,6 @@ class TaskForm extends React.Component {
                     </div>
             
                 </form>
-                
                 </div>
         </div>
         )
@@ -116,18 +94,20 @@ class TaskForm extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        // isDisplayForm: state.isDisplayForm
+        isDisplayForm: state.isDisplayForm,
+        editTask: state.editTask
     }
 }
 
-const mapDispatchToProps = (dispatch,props) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        onAddTask: task => {
-            dispatch(actions.addTask(task))
+        onSaveTask: task => {
+            dispatch(actions.saveTask(task))
         },
         onCloseForm: () => {
             dispatch(actions.closeForm())
-        }
+        },
+       
     }
 }
 

@@ -28,8 +28,6 @@ class TaskList extends React.Component {
         const { filterName, filterStatus,  } = this.state
         let elmTaskItem = tasks.map( (task,index) => {
             return <TaskItem key={task.id} index={index} 
-            onDelete = {this.props.onDelete}
-            onUpdate = {this.props.onUpdate}
             task={task}/>
         } )
         return (
@@ -62,7 +60,6 @@ class TaskList extends React.Component {
                                 <option value={0}>Ẩn</option>
                                 <option value={1}>Kích Hoạt</option>
                             </select>
-                            
                         </td>
                         <td></td>
                     </tr>

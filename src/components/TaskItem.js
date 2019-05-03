@@ -8,13 +8,15 @@ class TaskItem extends React.Component {
         this.props.onUpdateStatus(task.id)
     }
     onDelete = () => {
-        this.props.onDelete(this.props.task.id)
+        this.props.onDeleteTask(this.props.task.id)
+        this.props.onCloseForm()
     }
     onUpdate = () => {
-        this.props.onUpdate(this.props.task.id)
+        this.props.openFormEdit()
+        this.props.onEditTask(this.props.task)
     }
     render(){
-        const {task, index, openFormEdit} = this.props
+        const {task, index} = this.props
         return (
             <>
               <tr>
@@ -28,7 +30,7 @@ class TaskItem extends React.Component {
                     </span>
                 </td>
                 <td className="text-center">
-                    <button type="button" className="btn btn-warning" onClick={openFormEdit}>
+                    <button type="button" className="btn btn-warning" onClick={this.onUpdate}>
                         <span className="fa fa-pencil mr-5"></span>Sửa
                     </button>&nbsp;
                     
@@ -55,6 +57,15 @@ const mapDispatchToProps = (dispatch) => {
         },
         onUpdateStatus: id => {
             dispatch(actions.updateStatus(id))
+        },
+        onDeleteTask: id => {
+            dispatch(actions.deleteTask(id))
+        },
+        onCloseForm: () => {
+            dispatch(actions.closeForm())
+        },
+        onEditTask: task => {
+            dispatch(actions.editTask(task))
         }
     }
 }

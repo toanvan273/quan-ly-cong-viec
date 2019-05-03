@@ -19,25 +19,29 @@ const findIndex = (tasks, id) => {
 }
 let data = JSON.parse(localStorage.getItem('tasks'))
 let initialState = data ? data : []
-
+let index
 const myReducer = (state = initialState, action) => {
     switch(action.type){
         case types.LIST_ALL:
             return state
-        case types.ADD_TASK:
-        let id = randomID()
-        let newTask = {
-            id: id,
+        case types.SAVE_TASK:
+
+        let task = {
+            id: action.task.id,
             name: action.task.name,
             status: action.task.status
         }
-        state.push(newTask)
+        if(!task.id){
+            task.id = randomID()
+            state.push(task)
+        }else{
+            index = findIndex(state, task.id)
+            state[index] = task
+        }
         localStorage.setItem('tasks', JSON.stringify(state))
             return [...state]
         case types.UPDATE_STATUS_TASK:
-        // console.log('action',action.id)
-        // var id = action.id
-        let index = findIndex(state,action.id)
+        index = findIndex(state,action.id)
         state[index] = {   // tại phần tử thứ index
             ...state[index], // copy phần tử tại vị trí index
             status: !state[index].status // cập nhật lại status của p.tử thứ index
@@ -47,8 +51,12 @@ const myReducer = (state = initialState, action) => {
         // // state.splice(index, 1, cloneTask)
         // state[index] = cloneTask
         localStorage.setItem('tasks', JSON.stringify(state))
-        // console.log('cloneTask',cloneTask)
-        return [...state]
+            return [...state]
+        case types.DELETE_TASK:
+        index = findIndex(state,action.id);
+        state.splice(index, 1)
+        localStorage.setItem('tasks', JSON.stringify(state))
+            return [...state]
         default:
             return state
         }
