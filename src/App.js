@@ -11,13 +11,7 @@ class App extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            filter : {
-                name: '',
-                status: -1
-            },
-            keyword: '',
-            sortBy: 'name',
-            sortValue: 1
+            
         }
     }
     
@@ -33,41 +27,6 @@ class App extends React.Component {
         })
     }
 
-    findIndex = (id) => {
-        let { tasks } = this.state
-        let result = -1
-        tasks.forEach((task,index) => {
-            if(task.id === id){
-                result = index
-            }
-        })
-        return result
-    }
- 
-    onUpdate = (id) => {
-        let { tasks } = this.state
-        let index = this.findIndex(id)
-        let taskEditing = tasks[index]
-        this.setState({
-            taskEditing: taskEditing
-        })
-        this.onShowFrom()
-        
-    }
-    onFilter = (filterName, filterStatus) => {
-        filterStatus = parseInt( filterStatus)
-        this.setState({
-            filter : {
-                name: filterName.toLowerCase(),
-                status: filterStatus
-            }
-        })
-    }
-    onSearch = (key) => {
-        this.setState({
-            keyword: key
-        })
-    } 
     onSort = (sortBy,sortValue) => {
      this.setState({
          sortBy: sortBy,
@@ -91,40 +50,10 @@ class App extends React.Component {
         
     }
     render(){
-        const {  sortBy, sortValue } = this.state;
         const { isDisplayForm } = this.props
-        // if(filter){
-        //     if(filter.name){
-        //         tasks = tasks.filter( task => {
-        //             return task.name.toLowerCase().indexOf(filter.name) !== -1 // indexOf ko tìm ra kết quả trả về -1
-        //         })
-        //     }
-        //     tasks =  tasks.filter( task => {
-        //         if(filter.status === -1){
-        //             return task
-        //         }else{
-        //             return task.status === (filter.status === 1 ? true : false)
-        //         }
-        //     })
-        // }
-        // if(keyword){
-        //     tasks = tasks.filter( task => {
-        //         return task.name.toLowerCase().indexOf(keyword) !== -1 // indexOf ko tìm ra kết quả trả về -1
-        //     })
-        // }
-        // if(sortBy === 'name'){
-        //     tasks.sort( (a,b) => {
-        //         if(a.name > b.name) return sortValue
-        //         else if( a.name < b.name) return -sortValue
-        //         else return 0
-        //     })
-        // }else{
-        //     tasks.sort( (a,b) => {
-        //         if(a.status > b.status) return -sortValue
-        //         else if( a.status < b.status) return sortValue
-        //         else return 0
-        //     })
-        // }
+      
+        
+        
         return (
             <div className="container">
                 <div className="text-center">
@@ -140,14 +69,11 @@ class App extends React.Component {
                         </button> 
        
                         <div className="row mt-15">
-                            <Control onSearch={this.onSearch} onSort={this.onSort} sortBy={sortBy} sortValue={sortValue}/>
+                            <Control  />
                         </div> <br/>
                         <div className="row mt-15">
                             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <TaskList 
-                                onUpdate={this.onUpdate}
-                                onFilter={this.onFilter}
-                                />                        
+                                <TaskList />                        
                             </div>
                         </div>
                     </div>

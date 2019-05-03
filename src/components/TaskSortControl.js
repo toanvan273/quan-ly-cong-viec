@@ -1,15 +1,16 @@
 import React from 'react';
-
+import { connect } from 'react-redux'
+import * as actions from './../actions'
 
 class Sort extends React.Component {
-//    componentWillReceiveProps(nextProps){
-//        console.log(nextProps)
-//    }
     onClick = (sortBy, sortValue) => {
-       this.props.onSort(sortBy,sortValue)
+        let sort = {
+            by: sortBy,
+            value: sortValue
+        }
+       this.props.onSortTask(sort)
     }
     render(){
-      
         return (
             <>
                 <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -25,12 +26,12 @@ class Sort extends React.Component {
 
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
                             <li onClick={ () => this.onClick('name', 1) }>
-                                <a role='button' href="true" className={ (this.props.sortBy === 'name' && this.props.sortValue === 1) ? 'sort_selected' : '' }>
+                                <a role='button'  className={ (this.props.sort.by === 'name' && this.props.sort.value === 1) ? 'sort_selected' : '' }>
                                     <span className="fa fa-sort-alpha-asc pr-5">Tên A - Z</span>
                                 </a>
                             </li>
                             <li  onClick={ () => this.onClick('name', -1) }>
-                                <a href="true"  className={ (this.props.sortBy === 'name' && this.props.sortValue === -1) ? 'sort_selected' : '' } role="button">
+                                <a   className={ (this.props.sort.by === 'name' && this.props.sort.value === -1) ? 'sort_selected' : '' } role="button">
                                     <span className="fa fa-sort-alpha-desc pr-5">
                                         Tên Z - A
                                     </span>
@@ -38,10 +39,10 @@ class Sort extends React.Component {
                             </li>
                             <li role="separator" className="divider"></li>
                             <li  onClick={ () => this.onClick('status', 1) }>
-                                <a href="true" role="button"  className={ (this.props.sortBy === 'status' && this.props.sortValue === 1) ? 'sort_selected' : '' }>Trạng thái Kích hoạt</a>
+                                <a  role="button"  className={ (this.props.sort.by === 'status' && this.props.sort.value === 1) ? 'sort_selected' : '' }>Trạng thái Kích hoạt</a>
                             </li>
                             <li onClick={ () => this.onClick('status', -1) }>
-                                <a href="true" role="button" className={ (this.props.sortBy === 'status' && this.props.sortValue === -1) ? 'sort_selected' : '' }>Trạng thái Ẩn</a>
+                                <a  role="button" className={ (this.props.sort.by === 'status' && this.props.sort.value === -1) ? 'sort_selected' : '' }>Trạng thái Ẩn</a>
                             </li>
                         </ul>
                     </div>
@@ -52,4 +53,20 @@ class Sort extends React.Component {
   
 }
 
-export default Sort;
+
+
+const mapStateToProps = (state) => {
+    return {
+       sort: state.sort
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+       onSortTask: sort => {
+           dispatch(actions.sortTask(sort))
+       }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Sort)
